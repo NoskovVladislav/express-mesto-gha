@@ -1,4 +1,4 @@
-[![Tests](https://github.com/NoskovVladislav/express-mesto-gha/actions/workflows/tests-13-sprint.yml/badge.svg)](https://github.com/NoskovVladislav/express-mesto-gha/actions/workflows/tests-13-sprint.yml) [![Tests]
+[![Tests](https://github.com/NoskovVladislav/express-mesto-gha/actions/workflows/tests-13-sprint.yml/badge.svg)](https://github.com/NoskovVladislav/express-mesto-gha/actions/workflows/tests-13-sprint.yml) 
 # Проект Mesto фронтенд + бэкенд
 Поработали с Mongodb, express, postman
 
