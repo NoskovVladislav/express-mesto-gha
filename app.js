@@ -26,8 +26,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
 });
 
-app.use('/cards', require('./routes/cards'));
-
 app.use(auth);
 
 app.use(routerErrorWay);
