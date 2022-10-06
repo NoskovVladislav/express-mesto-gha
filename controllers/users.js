@@ -91,7 +91,7 @@ module.exports.updateUserInfo = (req, res, next) => {
       throw new ErrorNotFound('Пользователь не найден');
     })
     .then((user) => {
-    res.status(200).send({ data: user });
+      res.status(200).send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -109,14 +109,14 @@ module.exports.updateAvatar = (req, res, next) => {
       throw new BadRequestError('Переданы некорректные данные');
     })
     .then((user) => {
-        res.status(200).send({ data: user });
+      res.status(200).send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные'));
       } else {
         next(err);
-     }
+      }
     });
 };
 
@@ -124,14 +124,14 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return Users.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key', { expiresIn: '7d' });
-      res.status(201).send({ message: 'Авторизация успешна', token });
+      const token = jwt.sign({ _id: user._id }, { expiresIn: '7d' });
+      res.send({ message: 'Авторизация успешна', token });
     })
     .catch((err) => {
       if (err.message === 'IncorrectEmail') {
         next(new Unauthorized('Не правильный логин или пароль'));
       } else {
         next(err);
-     }
+      }
     });
 };
