@@ -17,8 +17,7 @@ module.exports.getUserMe = (req, res, next) => {
     .then((user) => {
       if (!user) {
         next(new ErrorNotFound('Пользователь не найден'));
-      }
-      else {
+      } else {
         res.status.send(user);
      }
     })
@@ -98,10 +97,9 @@ module.exports.updateUserInfo = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ErrorNotFound('Пользователь не найден'));
-      }
-      else {
+      } else {
         next(err);
-        };
+      }
     });
 };
 
@@ -117,10 +115,9 @@ module.exports.updateAvatar = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные'));
-      }
-      else {
+      } else {
         next(err);
-        };
+     }
     });
 };
 
@@ -134,7 +131,8 @@ module.exports.login = (req, res, next) => {
     .catch((err) => {
       if (err.message === 'IncorrectEmail') {
         next(new Unauthorized('Не правильный логин или пароль'));
-      }
-      next(err);
+      } else {
+        next(err);
+     }
     });
 };
