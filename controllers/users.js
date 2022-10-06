@@ -19,7 +19,7 @@ module.exports.getUserMe = (req, res, next) => {
         next(new ErrorNotFound('Пользователь не найден'));
       } else {
         res.status.send(user);
-     }
+      }
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -38,10 +38,9 @@ module.exports.getUserId = (req, res, next) => {
     .then((user) => {
       if (!user) {
         next(new ErrorNotFound('Пользователь не найден'));
-      }
-      else {
+      } else {
         res.status.send(user);
-     }
+      }
     })
     .catch((err) => {
       if (err.name === 'CastError') {

@@ -1,6 +1,7 @@
 const ErrorNotFound = require('../errors/ErrorNotFound');
 const BadRequestError = require('../errors/BadRequestError');
 const Cards = require('../models/card');
+const Forbidden = require('../errors/Forbidden');
 
 module.exports.getCard = (req, res, next) => {
   Cards.find({})
@@ -40,8 +41,8 @@ module.exports.likeCard = (req, res, next) => {
       if (!card) {
         next(new ErrorNotFound('Карточка не найдена'));
       } else {
-      res.status(200).send(card);
-    }
+        res.status(200).send(card);
+      }
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -61,7 +62,7 @@ module.exports.dislikeCard = (req, res, next) => {
       if (!card) {
         next(new ErrorNotFound('Карточка не найдена'));
       } else {
-      res.status(200).send({ data: card });
+        res.status(200).send({ data: card });
       }
     })
     .catch((err) => {
