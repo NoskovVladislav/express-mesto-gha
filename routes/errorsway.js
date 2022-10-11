@@ -11,4 +11,3 @@ router.use((req, res, next) => {
 });
 
 module.exports = router;
-// понятия не имею как этот чертов автотест пройти...
