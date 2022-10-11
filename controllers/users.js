@@ -7,7 +7,7 @@ const BadRequestError = require('../errors/BadRequestError');
 const Unauthorized = require('../errors/Unauthorized');
 
 module.exports.getUsers = (req, res, next) => {
-  User.find({})
+  Users.find({})
     .then((users) => {
       if (!users) {
         next(new Unauthorized('Вы не авторизованы'));
