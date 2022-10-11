@@ -4,13 +4,19 @@ const Users = require('../models/user');
 const ErrorNotFound = require('../errors/ErrorNotFound');
 const ErrorConflict = require('../errors/ErrorConflict');
 const BadRequestError = require('../errors/BadRequestError');
+const Unauthorized = require('../errors/Unauthorized');
 
-module.exports.getUser = (req, res, next) => {
-  Users.find({})
-    .then((user) => res.send(user))
-    .catch((err) => next(err));
+module.exports.getUsers = (req, res, next) => {
+  User.find({})
+    .then((users) => {
+      if (!users) {
+        next(new Unauthorized('Вы не авторизованы'));
+      } else {
+        res.send({ data: users });
+      }
+    })
+    .catch(next);
 };
-
 module.exports.getUserMe = (req, res, next) => {
   Users.findById(req.user._id)
     .then((user) => {
