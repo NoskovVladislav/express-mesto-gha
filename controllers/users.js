@@ -7,7 +7,7 @@ const BadRequestError = require('../errors/BadRequestError');
 
 module.exports.getUser = (req, res, next) => {
   Users.find({})
-    .then((user) => res.status(200).send(user))
+    .then((user) => res.send(user))
     .catch((err) => next(err));
 };
 
@@ -64,7 +64,7 @@ module.exports.createUser = (req, res, next) => {
     }))
     .then((user) => Users.findOne({ _id: user._id })) // прячет пароль
     .then((user) => {
-      res.status(200).send(user);
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -84,7 +84,7 @@ module.exports.updateUserInfo = (req, res, next) => {
       throw new ErrorNotFound('Пользователь не найден');
     })
     .then((user) => {
-      res.status(200).send({ data: user });
+      res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -102,7 +102,7 @@ module.exports.updateAvatar = (req, res, next) => {
       throw new ErrorNotFound('Пользователь не найден');
     })
     .then((user) => {
-      res.status(200).send({ data: user });
+      res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
