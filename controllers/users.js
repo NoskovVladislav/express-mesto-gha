@@ -18,7 +18,7 @@ module.exports.getUserMe = (req, res, next) => {
       if (!user) {
         next(new ErrorNotFound('Пользователь не найден'));
       } else {
-        res.status.send(user);
+        res.send(user);
       }
     })
     .catch((err) => {
@@ -35,13 +35,7 @@ module.exports.getUserId = (req, res, next) => {
     .orFail(() => {
       throw new ErrorNotFound('Пользователь не найден');
     })
-    .then((user) => {
-      if (!user) {
-        next(new ErrorNotFound('Пользователь не найден'));
-      } else {
-        res.status.send(user);
-      }
-    })
+    .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Переданы некорректные данные.'));
@@ -77,7 +71,7 @@ module.exports.createUser = (req, res, next) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные.'));
       } else if (err.code === 11000) {
-        next(new ErrorConflict({ message: err.errorMessage }));
+        next(new ErrorConflict('Пользователь с таким email уже существует'));
       } else {
         next(err);
       }
@@ -95,7 +89,7 @@ module.exports.updateUserInfo = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new ErrorNotFound('Пользователь не найден'));
+        next(new BadRequestError('Переданы некорректные данные'));
       } else {
         next(err);
       }
@@ -106,7 +100,7 @@ module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
   Users.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .orFail(() => {
-      throw new BadRequestError('Переданы некорректные данные');
+      throw new ErrorNotFound('Пользователь не найден');
     })
     .then((user) => {
       res.status(200).send({ data: user });
@@ -124,14 +118,8 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return Users.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, 'some-secret-key' , { expiresIn: '7d' });
       res.send({ message: 'Авторизация успешна', token });
     })
-    .catch((err) => {
-      if (err.message === 'IncorrectEmail') {
-        next(new Unauthorized('Не правильный логин или пароль'));
-      } else {
-        next(err);
-      }
-    });
+    .catch(next(err));
 };
