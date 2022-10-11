@@ -34,7 +34,7 @@ module.exports.getUserId = (req, res, next) => {
     .orFail(() => {
       throw new ErrorNotFound('Пользователь не найден');
     })
-    .then((user) => res.send({ user }))
+    .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Переданы некорректные данные.'));
@@ -52,21 +52,24 @@ module.exports.createUser = (req, res, next) => {
     email,
     password,
   } = req.body;
-
-  return bcrypt.hash(password, 10)
-
+  bcrypt.hash(password, 10)
     .then((hash) => Users.create({
       name,
       about,
       avatar,
       email,
       password: hash,
-      _id: user._id,
     }))
     .then((user) => Users.findOne({ _id: user._id })) // прячет пароль
-    .then((user) => {
-      res.send(user);
-    })
+    .then((user) => res.send({
+      data: {
+        name: user.name,
+        about: user.about,
+        avatar: user.avatar,
+        email: user.email,
+        _id: user._id,
+      },
+    }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные.'));
@@ -85,7 +88,7 @@ module.exports.updateUserInfo = (req, res, next) => {
       throw new ErrorNotFound('Пользователь не найден');
     })
     .then((user) => {
-      res.send({ data: user });
+      res.send({ user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -103,7 +106,7 @@ module.exports.updateAvatar = (req, res, next) => {
       throw new ErrorNotFound('Пользователь не найден');
     })
     .then((user) => {
-      res.send({ data: user });
+      res.send({ user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
