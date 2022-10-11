@@ -20,7 +20,7 @@ module.exports.getUsers = (req, res, next) => {
 module.exports.getUserMe = (req, res, next) => {
   Users.findById(req.user._id)
     .then((user) => {
-      if (!user) {
+      if (!user.id) {
         next(new ErrorNotFound('Пользователь не найден'));
       } else {
         res.send({ data: user });
@@ -61,15 +61,15 @@ module.exports.createUser = (req, res, next) => {
         _id: user._id,
       },
     }))
-    .catch((error) => {
-      if (error.name === 'ValidationError') {
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
       } else if (
-        error.code === 11000
+        err.code === 11000
       ) {
         next(new ErrorConflict('Пользователь с таким email уже существует'));
       } else {
-        next();
+        next(err);
       }
     });
 };
