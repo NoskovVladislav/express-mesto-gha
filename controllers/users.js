@@ -23,7 +23,7 @@ module.exports.getUserMe = (req, res, next) => {
       if (!user) {
         next(new ErrorNotFound('Пользователь не найден'));
       } else {
-        res.send({ data: user});
+        res.send({ data: user });
       }
     })
     .catch(next);
@@ -39,7 +39,7 @@ module.exports.getUserId = (req, res, next) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Переданы некорректные данные.'));
       } else {
-        next(err);
+        next();
       }
     });
 };
@@ -61,6 +61,7 @@ module.exports.createUser = (req, res, next) => {
       avatar,
       email,
       password: hash,
+      _id: user._id,
     }))
     .then((user) => Users.findOne({ _id: user._id })) // прячет пароль
     .then((user) => {
