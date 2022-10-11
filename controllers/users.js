@@ -23,16 +23,10 @@ module.exports.getUserMe = (req, res, next) => {
       if (!user) {
         next(new ErrorNotFound('Пользователь не найден'));
       } else {
-        res.send(user);
+        res.send({ data: user});
       }
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Переданы некорректные данные.'));
-      } else {
-        next(err);
-      }
-    });
+    .catch(next);
 };
 
 module.exports.getUserId = (req, res, next) => {
