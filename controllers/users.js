@@ -46,21 +46,12 @@ module.exports.getUserId = (req, res, next) => {
 
 module.exports.createUser = (req, res, next) => {
   const {
-    name,
-    about,
-    avatar,
-    email,
-    password,
+    name, about, avatar, email, password,
   } = req.body;
   bcrypt.hash(password, 10)
-    .then((hash) => Users.create({
-      name,
-      about,
-      avatar,
-      email,
-      password: hash,
+    .then((hash) => User.create({
+      name, about, avatar, email, password: hash,
     }))
-    .then((user) => Users.findOne({ _id: user._id })) // прячет пароль
     .then((user) => res.send({
       data: {
         name: user.name,
@@ -70,13 +61,15 @@ module.exports.createUser = (req, res, next) => {
         _id: user._id,
       },
     }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные.'));
-      } else if (err.code === 11000) {
+    .catch((error) => {
+      if (error.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
+      } else if (
+        error.code === 11000
+      ) {
         next(new ErrorConflict('Пользователь с таким email уже существует'));
       } else {
-        next(err);
+        next();
       }
     });
 };
