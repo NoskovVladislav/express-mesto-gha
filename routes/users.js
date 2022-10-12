@@ -7,7 +7,6 @@ const {
 } = require('../middlewares/validationJoi');
 
 const {
-  getUsers,
   getUserId,
   updateUserInfo,
   updateAvatar,
