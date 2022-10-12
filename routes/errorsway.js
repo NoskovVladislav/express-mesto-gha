@@ -7,7 +7,7 @@ router.use('/users', userRoute);
 router.use('/cards', cardsRoute);
 
 router.use((req, res, next) => {
-  next(new ErrorNotFound('Данный путь не найден'));
+  next(new ErrorNotFound('Данный путь не найден' ));
 });
 
 module.exports = router;
