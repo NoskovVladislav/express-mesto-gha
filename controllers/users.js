@@ -6,21 +6,17 @@ const ErrorConflict = require('../errors/ErrorConflict');
 const BadRequestError = require('../errors/BadRequestError');
 const Unauthorized = require('../errors/Unauthorized');
 
-module.exports.getUsers = (req, res, next) => {
+module.exports.getUser = (req, res, next) => {
   Users.find({})
-    .then((users) => {
-      if (!users) {
-        next(new Unauthorized('Вы не авторизованы'));
-      } else {
-        res.send({ data: users });
-      }
+    .then((user) => {
+      res.send(user);
     })
     .catch(next);
 };
 module.exports.getUserMe = (req, res, next) => {
   Users.findById(req.user._id)
     .then((user) => {
-      if (!user.id) {
+      if (!user) {
         next(new ErrorNotFound('Пользователь не найден'));
       } else {
         res.send({ data: user });
