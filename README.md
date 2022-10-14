@@ -1,5 +1,3 @@
-[![Tests](https://github.com/NoskovVladislav/express-mesto-gha/actions/workflows/tests-13-sprint.yml/badge.svg)](https://github.com/NoskovVladislav/express-mesto-gha/actions/workflows/tests-13-sprint.yml) [![Tests](https://github.com/NoskovVladislav/express-mesto-gha/actions/workflows/tests-14-sprint.yml/badge.svg)](https://github.com/NoskovVladislav/express-mesto-gha/actions/workflows/tests-14-sprint.yml)
-# Проект Mesto фронтенд + бэкенд
 Поработали с Mongodb, express, postman
 Ссылка на репазиторий: https://github.com/NoskovVladislav/express-mesto-gha
 
