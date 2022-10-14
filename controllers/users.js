@@ -5,10 +5,10 @@ const ErrorNotFound = require('../errors/ErrorNotFound');
 const ErrorConflict = require('../errors/ErrorConflict');
 const BadRequestError = require('../errors/BadRequestError');
 
-module.exports.getUser = (req, res, next) => {
+module.exports.getUsers = (req, res, next) => {
   Users.find({})
-    .then((user) => {
-      res.send(user);
+    .then((users) => {
+      res.send(users);
     })
     .catch(next);
 };
